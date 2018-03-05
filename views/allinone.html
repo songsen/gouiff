@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8">
+    <title>login</title> 
+    <head>
+        <style>
+        table,th,td {
+          border : 1px solid black;
+          border-collapse: collapse;
+        }
+        th,td {
+          padding: 5px;
+        }
+        </style>
+    </head>
+    <body>
+        <form action="http://{{.WebsiteLogin}}" method="post">
+        用户名:<input type="text" name="username"><br>
+        密码:<input type="password" name="password"><br>
+        <input type="submit" value="登陆">
+        </form>
+        <br>
+        <br>
+        <form action="http://{{.WebsiteUser}}" method="post">
+            注册用户<br>
+            用户名:<input type="text" name="username">
+            密码:<input type="password" name="password">
+            权限:<input type="text" name="persission">
+            <input type="hidden" name="_method" value="PUT">
+            <input type="submit" value="注册">
+        </form>
+        <form action="http://{{.WebsiteUser}}" method="post">
+            删除用户byname<br>
+            用户名:<input type="text" name="username">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" value="删除"><br>
+        </form>
+        <form action="http://{{.WebsiteUser}}" method="post">
+            修改用户资料byname<br>
+            用户名:<input type="text" name="username">
+            密码:<input type="password" name="password">
+            <input type="hidden" name="_method" value="PATCH">
+            <input type="submit" value="更改">
+        </form>
+        <br>
+        <p >line</p>
+        <br>
+        <form action="http://{{.WebsiteLine}}" method="post">
+            FromCity:<input type="text" name="fromcity">
+            ToCity:<input type="text" name="tocity"><br>
+            FromPort:<input type="text" name="fromport">
+            ToPort:<input type="text" name="toport">
+            Line:<input type="text" name="line">
+            <input type="submit" value="增添"><br>
+        </form>
+        <form action="http://{{.WebsiteLine}}" method="post">
+            FromPort:<input type="text" name="fromport">
+            ToPort:<input type="text" name="toport">
+            Line:<input type="text" name="line">
+            Price:<input type="text" name="xsize">
+            <input type="hidden" name="_method" value="PATCH">
+            <input type="submit" value="修改"><br>
+        </form>
+        <form > 表格
+            Price:<input id="1" type="text" name="from">
+            Price:<input id="2" type="text" name="to">
+            type="submit" <button  type="button" onclick="loadDoc(this)">
+                value="查询">
+            </button> <br>
+        </form>
+        <br><h1>查询结果</h1><br>
+        <table id="demo"></table>
+
+        <script>
+            function loadDoc(_this) {
+              var xhttp = new XMLHttpRequest();
+              //xhttp.open("GET", "line?from=guangzhou&to=abs", true);
+              xhttp.open("GET", "line?from="+document.getElementById("1").value+"&to="+document.getElementById("2").value, true);
+             xhttp.setRequestHeader("X-Requested-With","XMLHttpRequest")
+
+              xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    myFunction(this);
+                }
+              };
+              
+              xhttp.send();
+            //   var xhr = new XMLHttpRequest();
+            //   xhr.onreadystatechange = function() {
+            //     if (this.readyState == 4 && this.status == 200) {
+            //         myFunction(this);
+            //     }
+            //   };
+            //     xhr.open (oFormElement.method, oFormElement.action, true);
+            //     xhr.send (new FormData (oFormElement));
+            //     return false; // Markus had to return true
+              //alert(_this.parentNode.childNodes[0].textContent)
+
+            }
+            function myFunction(xml) {
+              var i;
+              
+              var xmlDoc = xml.responseXML;
+              //var table="<tr><th>Artxxist</th><th>Title</th><th>COMPANY</th><th>PRICE</th><th>YEAR</th><th>COUNTRY</th></tr>";
+
+              var x = xmlDoc.getElementsByTagName("server");
+
+              var table = "<tr>" ;
+
+                var y=x[0].childNodes;  
+                for(var j=0;j<y.length;j++)//textContent
+                {
+                    if (y[j].nodeType==1){
+                        table += 
+                        "<th>" +
+                                y[j].nodeName
+                        "</th>"
+                    }
+                }
+                table += "</tr>";
+             //   + y[j].nodeName #text
+             //+y[j].tagName+
+              //alert( x[0].getElementsByTagName("xsize")[0].textContent );
+              table += "<tr>" ;
+              for (i = 0; i <x.length; i++) {
+
+                var y=x[i].childNodes;
+                for(var j=0;j<y.length;j++)//textContent
+                {
+                    if( y[j].nodeType==1)
+                    {
+                        table += 
+                        "<td>" +
+                                y[j].textContent
+                        "</td>"
+                    }
+
+                }
+                table += "</tr>";
+                // table += "<tr><td>" +
+                // x[i].getElementsByTagName("Fromcity")[0].childNodes[0].nodeValue +
+                // "</td><td>" +
+                // x[i].getElementsByTagName("Fromport")[0].textContent +
+                // "</td><td>"+
+                // x[i].getElementsByTagName("Tocity")[0].textContent +
+                // "</td><td>"+
+                // x[i].getElementsByTagName("Toport")[0].textContent +
+                // "</td><td>"+
+                // x[i].getElementsByTagName("Xsize")[0].textContent+
+                // "</td><td>"+
+                // x[i].getElementsByTagName("Line")[0].textContent +
+                // "</td></tr>";
+                //alert(xml.responseXML);
+              }
+              document.getElementById("demo").innerHTML = table;
+            }
+
+            </script>
+    </body>
+    
+</html>

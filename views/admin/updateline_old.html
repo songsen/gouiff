@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      
+</head>
+
+    <h3 class="page-header">Update Line</h3>
+  <div >
+    <form class="form-inline" action="http://localhost:8080/line" method="post" target="nm_iframe">
+      <div class="form-group">
+        <input type="text" name="fromport"  class="form-control" placeholder="From PORT">
+        <input type="text" name="toport"  class="form-control" placeholder="To PORT" >
+        <input type="text" name="line"  class="form-control" placeholder="Line">
+        <br>
+        <input type="text" id="ssize" name="ssize"  autocomplete=on class="form-control" placeholder="S Price" >
+        <input type="text" id="xsize" name="xsize"  autocomplete=on class="form-control" placeholder="X Price" >
+        <input type="text" id="xlsize" name="xlsize"  autocomplete=on class="form-control" placeholder="XL Price" >
+        <br>
+        <input type="text" id="mark" name="mark"  autocomplete=on class="form-control" placeholder="Mark" >
+        <input type="text" id="note" name="note"  autocomplete=on class="form-control" placeholder="Note" >
+
+        <input type="hidden" name="_method" value="PATCH">
+        <input type="submit" value="更新" class="btn btn-default">
+      </div>        
+      <div  style="height:50px;width:100px" >
+        <div class="embed-responsive embed-responsive-4by3" >
+          <!---  style="display:none;" -->
+          <iframe id="id_iframe" name="nm_iframe"  class="embed-responsive-item"></iframe> 
+        </div>
+      </div>
+    </form>  
+
+     <div class="form-group">
+        <label for="exampleInputEmail2">To</label>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="input-group">
+          <input type="text" id="region" name="region"  autocomplete=off 
+          onkeyup="autoCompleteregion.showHint(event)" class="form-control" placeholder="Search for Region" >
+          <div class="auto_hidden" id="autoto"><!--自动完成 DIV--></div>
+          <script>  var autoCompleteregion=new AutoComplete('region','autoto',null);</script>   
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">Go!</button>
+          </span>
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+
+      <div class="col-lg-6">
+        <div class="input-group">
+          <input type="text" id="person" name="person" autocomplete=off 
+          onkeyup="autoCompleteperson.showHint(event)" class="form-control" placeholder="Search for Someone">
+          <div class="auto_hidden" id="autoperson"><!--自动完成 DIV--></div>
+          <script>  var autoCompleteperson=new AutoComplete('person','autoperson',null);</script>  
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">Go!</button>
+          </span>
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+    
+      <div class="col-lg-6">
+        <div class="input-group">
+          <input type="text" id="line" name="line" autocomplete=off 
+          onkeyup="autoCompleteline.showHint(event)" class="form-control" placeholder="Search for Ship">
+          <div class="auto_hidden" id="autoline"><!--自动完成 DIV--></div>
+          <script>  var autoCompleteline=new AutoComplete('line','autoline',null);</script>  
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">Go!</button>
+          </span>
+          </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+    </div>
+
+  </div>
+  
+    <br><br>
+    <h4 class="sub-header">Line</h4>
+    <div class="table-responsive">
+      <table id="lineTable"class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Header</th>
+            <th>Header</th>
+            <th>Header</th>
+            <th>Header</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1,001</td>
+            <td>Lorem</td>
+            <td>ipsum</td>
+            <td>dolor</td>
+            <td>sit</td>
+          </tr>
+          <tr>
+        </tbody>
+      </table>
+    </div>
+    
+  <script>
+  </script>
+</html>

@@ -1,0 +1,169 @@
+<div>
+
+  <h5 class="page-header">Update Line</h5>
+    <div id="adminPageLine"class="row">
+
+      <div class="col-lg-6">
+        <div class="input-group">
+          <input type="text" id="person" data-type="person" name="msgValue" autocomplete=off 
+          onkeyup="autoCompleteperson.showHint(event)" class="form-control" placeholder="Search for Someone">
+          <input type="hidden" name="msgtype" value="getlinebyfeild">
+          <input type="hidden" name="feild" value="person">
+          <div class="auto_hidden" id="autoperson"><!--自动完成 DIV--></div>
+          <script>  var autoCompleteperson=new AutoComplete('person','autoperson',null);</script>  
+          <span class="input-group-btn">
+            <button class="btn btn-default" >Go!</button>
+          </span>
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+    
+      <div class="col-lg-6">
+        <div class="input-group">
+          <input type="text" id="ship" data-type="ship" name="msgValue" autocomplete=off 
+          onkeyup="autoCompleteline.showHint(event)" class="form-control" placeholder="Search for Ship">
+          <input type="hidden" name="msgtype" value="getlinebyfeild">
+          <input type="hidden" name="feild" value="ship">
+          <div class="auto_hidden" id="autoline"><!--自动完成 DIV--></div>
+          <script>  var autoCompleteline=new AutoComplete('ship','autoline',null);</script>  
+          <span class="input-group-btn">
+            <button class="btn btn-default" >Go!</button>
+          </span>
+          </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+
+      <div class="col-lg-6">
+          <div class="input-group">
+            <input type="text" id="region" data-type="region" name="msgValue"  autocomplete=off 
+            onkeyup="autoCompleteregion.showHint(event)" class="form-control" placeholder="Search for Region" >
+            <input type="hidden" name="msgtype" value="getlinebyfeild">
+            <input type="hidden" name="feild" value="region">
+            <div class="auto_hidden" id="autoregintip"><!--自动完成 DIV--></div>
+            <script>  var autoCompleteregion=new AutoComplete('region','autoregintip',null);</script>   
+            <span class="input-group-btn">
+              <button class="btn btn-default" >Go!</button>
+            </span>
+          </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div>
+
+  <!-- TAB  -->
+    <br>
+    <h5 class="sub-header">Line List</h5>
+    <div class="table-responsive">
+      <table id="adminPageLineTable"class="table table-condensed">
+        <thead>
+          <tr>
+            <th class="col-md-1">LineNum</th>
+            <th>From</th>
+            <th>To</th>
+            <th >Ship</th>
+            <th class="col-md-2" >Price</th>
+            <th class="col-md-1">Close</th>
+            <th>Note</th>
+            <th class="col-md-1">By</th>
+            <th class="col-md-1">Region</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+<script> 
+  // tab list
+  $(function(){
+      $("#adminPageLine button").click(function(){
+          object= $(this).parent().siblings("input");
+          var param  = $.param($(object));
+          var urlp = "http://{{.Domain}}/line";
+          var obj = this ;
+          $(this).attr("disabled","disabled");
+          $.get(urlp,param,function(xmldata,status){
+              // alert("数据：\n状态：" + status);
+              $(obj).removeAttr("disabled");
+
+              var strHTML ;
+              $(xmldata).find("server").each(function(){
+                 
+                  var uid = $(this).find("LineNum").text();
+
+                  strHTML += "<tr data-id="
+                          +uid
+                          +">";
+
+                  strHTML += "<td><div class=\"btn-group\"><button type=\"button\" class=\"btn btn-default btn-xs dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">"
+                              + uid + "<span class=\"caret\"></span>\
+                            </button>\
+                            <ul class=\"dropdown-menu\">\
+                              <li><a href=\"#delline\">Delete</a></li>\
+                            </ul>\
+                          </div></td>";
+
+                  strHTML += "<td>" + $(this).find("FromPort").text() +"</td>";
+                  strHTML += "<td>" + $(this).find("ToPort").text() +"</td>";
+                  strHTML += "<td>" + $(this).find("Ship").text() +"</td>";
+
+                  strHTML += "<td>"
+                      +"<input type=\"text\"  name=\"price\" data-feid=\"price\" autocomplete=off class=\"form-control input-sm\" value="
+                      + $(this).find("S-L-XL").text()
+                      +"></td>";
+
+                  strHTML += "<td>" 
+                    +"<input type=\"text\"  name=\"mark\" data-feid=\"mark\" autocomplete=off class=\"form-control input-sm\" value="
+                    + $(this).find("CloseDate").text()+"></td>";
+
+                  strHTML += "<td>" 
+                    +"<input type=\"text\"  name=\"note\" data-feid=\"note\" autocomplete=off class=\"form-control input-sm\" value="
+                    + $(this).find("Note").text()+"></td>";
+
+                  strHTML += "<td>" + $(this).find("By").text() +"</td>";
+                  strHTML += "<td>" + $(this).find("Region").text() +"</td>";
+                  strHTML += "</tr>";
+              })
+              $("#adminPageLineTable tbody").html(strHTML);
+          },
+      "xml");
+          return false;
+      })
+  })
+//
+  $(function(){
+    $("#adminPageLineTable").on("click","[href='#delline']",function(){
+      $parent = $(this).parents("tr");
+      var id = $parent.data('id');
+
+      var param = "&uid=" + id;
+      param += "&msgtype=deleteline";
+      var urlp = "http://{{.Domain}}/line";
+
+      $parent.attr("disabled","disabled");
+      $.post(urlp,param,function(data,status){
+        $parent.remove();
+      })
+    })
+  })
+      
+  $(document).ready(function(){
+    $("#adminPageLineTable").on("change","input",function(){
+      var param = $.param($(this));
+
+      $parent = $(this).parents("tr");
+      var id =  $parent.data('id');
+
+      param += "&uid=" + id;
+      param += "&msgtype=updatelinebyfeild";
+      param += "&feild="+$(this).data("feid");
+      var urlp = "http://{{.Domain}}/line";
+      obj = this;
+      
+      $(this).attr("disabled","disabled")
+      $.post(urlp,param,function(data,status){
+          // alert("数据：" + data + "\n状态：" + status);
+          $(obj).removeAttr("disabled")
+        });
+      return false;
+    });
+  });
+
+</script>
+</div>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+        <h5 class="page-header">Update List</h5>
+      <div >
+        <form id="form" class="form-inline" action="http://{{.Domain}}/user" method="get">
+          <div class="form-group">
+            <button type="button" class="btn btn-default">Get List</button>
+          </div>
+        </form>  
+      </div>
+      <br>
+      <h5 class="sub-header">User List</h5>
+      <div class="table-responsive">
+        <table id="adminUserLineTable"class="table table-striped">
+          <thead>
+            <tr>
+              <th>UID</th>
+              <th>Name</th>
+              <th class="col-md-2">Password</th>
+              <th class="col-md-1">Permission</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
+  
+<script>
+
+    $(document).ready(function(){
+      $("form button").click(function(){
+      var $parenobj = $(this).parents("form"); 
+      var uarp = $parenobj.attr("action");
+      var param = $parenobj.serialize();
+
+      $.get(uarp,param,function(xmldata,status){
+          var strHTML ;
+
+          $(xmldata).find("userinfo").each(function(){
+            
+            var uid = $(this).find("Uid").text();
+
+            strHTML += "<tr data-id="
+                          +uid
+                          +">";
+
+            strHTML += "<td><div class=\"btn-group\"><button type=\"button\" class=\"btn btn-default btn-xs dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">"
+                       + uid + "<span class=\"caret\"></span>\
+                        </button>\
+                        <ul class=\"dropdown-menu\">\
+                        <li><a href=\"#delline\">Delete</a></li>\
+                        </ul>\
+                        </div></td>";
+
+              strHTML += "<td>" + $(this).find("Username").text() +"</td>";
+              strHTML += "<td>" +"<input type=\"text\"  name=\"password\" data-feid=\"Password\" autocomplete=off class=\"form-control\" value="
+                + $(this).find("Password").text()+"></td>";
+
+              strHTML += "<td>" +"<input type=\"text\"  name=\"permission\" data-feid=\"Permission\" autocomplete=off class=\"form-control\" value="
+                + $(this).find("Permission").text()+"></td>";
+              strHTML += "<td>" + $(this).find("Created").text() +"</td>";
+              strHTML += "</tr>";
+          })
+            $("#adminUserLineTable tbody").html(strHTML);
+        },
+        "xml");
+
+      return false;
+      });
+    });
+
+    // $(function(){
+    //   $("input").change(function(){
+    //     alert("text changed");
+    //   })
+    // })
+
+  $(function(){
+    $("#adminUserLineTable").on("click","[href='#delline']",function(){
+      $parent = $(this).parents("tr");
+      var id = $parent.data('id');
+
+      var param = "&uid=" + id;
+      param += "&msgtype=deleteuser";
+      var urlp = "http://{{.Domain}}/user";
+
+      $parent.attr("disabled","disabled");
+      $.post(urlp,param,function(data,status){
+        $parent.remove();
+      })
+    })
+  })
+
+  $(document).ready(function(){
+    $("#adminUserLineTable").on("change","input",function(){
+      //alert( $(this).data("id"))
+      // personObj=new Object();
+      // personObj.uid=$(this).data("id");
+      // personObj.username=$(this).attr("password");
+      // personObj.password=$(this).attr("permission");
+      $parent = $(this).parents("tr");
+      var id = $parent.data('id');
+
+      var param = $.param($(this));
+      param += "&uid=" + id
+      param += "&msgtype=modify";
+      param += "&feid="+$(this).data("feid");
+      var urlp = "http://{{.Domain}}/user";
+      obj = this;
+      $.post(urlp,param,function(data,status){
+          alert("数据：" + data + "\n状态：" + status);
+          $(obj).removeAttr("disabled")
+        });
+
+      $(this).attr("disabled","disabled")
+      return false;
+
+    });
+  });
+
+</script>
+</html>

@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">  
+    <head>
+
+    {{template "headbar.html" .}}
+    
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+
+        <!-- Custom styles for this template -->
+        <link href="../static/css/dashboard.css" rel="stylesheet">
+<!--         
+    <script type="text/javascript" language="javascript">
+        $.ajaxSetup ({
+        cache: false //close AJAX cache
+        }); -->
+    </script>
+</head>
+
+<body>
+    
+    <div class="container">
+        <ul id="navtable" class="nav nav-tabs " role="tablist">
+            <li role="presentation" class="active" >
+                <a href="#home" aria-controls="home" role="tab" data-toggle="tab" data-link="admin/updateline.html" >Update Line</a>
+            </li>
+            <li role="presentation">
+                <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" data-link="admin/addline.html">ADD Line</a>
+            </li>
+            <li role="presentation">
+                    <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" data-link="admin/user_info.html">Update User</a>
+            </li>
+            <li role="presentation">
+                <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" data-link="admin/adduser.html">Register User</a>
+            </li>
+        </ul>
+        <div class="row">
+            <div class="tab-content">
+                    <div id="tablepanel" role="tabpanel" class="tab-pane active" >加载中……</div>
+                    <!-- <div role="tabpanel" class="tab-pane" id="profile">..2.</div>
+                    <div role="tabpanel" class="tab-pane" id="messages">.3..</div>
+                    <div role="tabpanel" class="tab-pane" id="settings">.4..</div> -->
+            </div>
+        </div>
+    </div>
+</body>
+
+    <script>
+    $(function(){
+        $('#navtable a').click(function (e) {
+            
+            $(".tab-pane").load($(this).data("link"));  
+
+        })
+    })
+    $(function(){
+        $(".tab-pane").load("admin/updateline.html"); 
+    })
+    </script>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== --> 
+
+    <script src="../static/js/autocompelet.js"></script>
+    <!--==== style css ====-->
+    <link href="../static/css/autocompelet.css" rel="stylesheet">  
+      
+    <script src="../static/bootstrap-3.3.7/js/tab.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="../static/bootstrap-3.3.7/docs/assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../static/bootstrap-3.3.7/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+</html>

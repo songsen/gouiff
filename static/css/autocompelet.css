@@ -1,0 +1,41 @@
+
+body {
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+  }
+  .auto_hidden {
+    width:204px;
+  
+    /* border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333; */
+  
+    position:absolute;
+    display:none;
+  }
+  .auto_show {
+    width:204px;
+    /* border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333; */
+  
+    position:absolute;
+    z-index:9999; /* 设置对象的层叠顺序 */
+    display:block;
+    box-shadow: 10px 10px 5px #888888;/*阴影效果*/
+    /* border-radius:25px; */
+  }
+  .auto_onmouseover{/*捕获鼠标指针显示时变色*/
+    background-color: #555;
+    color: white;
+    width:100%;
+  }
+  .auto_onmouseout{/*鼠标指针out时变色*/
+    background-color: #f1f1f1;
+    color:#000000;
+    width:100%;
+  }

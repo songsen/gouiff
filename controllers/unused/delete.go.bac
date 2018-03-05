@@ -1,0 +1,19 @@
+package controllers
+
+import (
+	"github.com/astaxie/beego"
+	"goh/models"
+)
+
+
+type DelController struct {
+	beego.Controller
+}
+
+func (this *DelController) Post(){
+	username := this.GetString("username");//this.Ctx.Request.Form.Get("username")
+	//password := this.GetString("password");//this.Ctx.Request.Form.Get("password")
+
+	models.DelteUser(username)
+	this.Ctx.WriteString(this.GetString("username")+" delete") 
+}

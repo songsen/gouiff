@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        {{template "headbar.html" .}} 
+    <script src="../static/js/autocompelet.js"></script>
+    <!--==== style css ====-->
+    <link href="../static/css/autocompelet.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <!-- Begin page content class="pre-scrollable"   <link rel="stylesheet" href="static/js/autocompelet.css">   -->
+    <div class="container">
+      <div class="page-header"><h3>Query</h3></div>
+      <div class="container">
+        <div >
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="exampleInputName2">From</label>
+                    <input type="text" id="fromport" name="fromport" data-type="fromport" 
+                    autocomplete=off  class="form-control" placeholder="From" onkeyup="autoComplete.showHint(event)">
+                    <div class="auto_hidden" id="autofrom"  multiple> <!--自动完成 DIV--></div>
+                    <script>var autoComplete=new AutoComplete('fromport','autofrom',["abc","abs"]);</script>  
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail2">To</label>
+                    <input type="text" id="toport" name="toport"  data-type="toport" 
+                    autocomplete=off class="form-control" placeholder="To" onkeyup="autoComplete1.showHint(event)">
+                    <div class="auto_hidden" id="autoto"><!--自动完成 DIV--></div>
+                    <script>  var autoComplete1=new AutoComplete('toport','autoto',["xxxx","xxxx","杨松森"]);</script>   
+                </div>
+                <button type="button"  onclick="getLineXML(this)" class="btn btn-default">Search</button>
+            </form>          
+        </div>
+        
+        <div class="page-header">
+          <h3 class="auto_hidden">line</h3>
+          <div class="input-group">
+              <!--- <input id="inFrom" type="text" placeholder="from City or Port">
+              <input id="inTo" type="text" placeholder="to City or Port" >
+              h1 {text-align:center}
+            h2 {text-align:left}
+            h3 {text-align:right} -->
+          </div>
+          <div class="table-responsive">     
+              <table id="lineTable" class="table table-striped table-bordered"></table>
+          </div>
+        </div>
+      </div>
+      
+      <!--- 更新记录bar -->
+      <div class="page-header" ><h5 >Logs</h5></div>
+        <div class="input-group"></div>
+
+        <div class="input-group">
+            <div class="well well-sm "   >
+                    <p style="text-align:left"> Pin a fixed-height footer to the bottom of the viewport 
+                        in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with 
+                        <code>padding-top: 60px;</code> on the <code>body &gt; .container</code>.</p>
+            </div>
+        </div>
+
+        <div class="input-group" style="float:right;">
+            <div class="well well-sm" >
+                    <p style="text-align:right"><p>Back to <a href="../sticky-footer">
+                        the default sticky footer</a> minus the navbar.</p>
+                    </p>
+            </div>
+        </div>
+
+        <br>
+        <div class="input-group" style="float:left;">
+            <div class="well well-sm" >
+                    <p style="text-align:right"><p>Back to <a href="../sticky-footer">
+                        the default sticky footer</a> minus the navbar.</p>
+                    </p>
+            </div>
+        </div>
+        
+      <!--- post 区域 -->
+      <div >
+            <textarea class="form-control" rows="3"></textarea>
+            <p> </p>
+      </div>
+      <div style="float:right;" class="form-group">
+            <a id="btn2" class="btn btn-primary">Post</a>
+      </div>
+
+    </div>
+
+
+    <div id="footer" class="container">
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+            <div class="navbar-inner navbar-content-center">
+                <p class="text-muted credit" style="padding: 10px;">
+                    
+                </p>
+            </div>
+        </nav>
+    </div>
+
+  </body>
+
+<script>
+    function getLineXML(_this) {
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("GET", "line?msgtype=getfromtoline&from="+document.getElementById("fromport").value+"&to="+document.getElementById("toport").value, true);
+    xhttp.setRequestHeader("X-Requested-With","XMLHttpRequest")
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            myFunction(this);
+        }
+    };
+    xhttp.send();
+    }
+    function myFunction(xml) {        
+    var xmlDoc = xml.responseXML;
+    var x = xmlDoc.getElementsByTagName("server");
+
+    var table = "<thead><tr>" ;
+
+    var y=x[0].childNodes;  
+    for(var j=0;j<y.length;j++)//textContent
+    {
+        if (y[j].nodeType==1){
+            table += 
+            "<th>" +
+                    y[j].nodeName
+            "</th>"
+        }
+    }
+
+    table += "</tr></thead><tbody>";
+
+    for (i = 0; i <x.length; i++) {
+        table += "<tr>"
+        var y=x[i].childNodes;
+        for(var j=0;j<y.length;j++)//textContent
+        {
+            if( y[j].nodeType==1)
+            {
+                table += 
+                "<td>" +
+                        y[j].textContent
+                "</td>"
+            }
+        }
+        table += "</tr>";
+    }
+    table += "</tbody>";
+    document.getElementById("lineTable").innerHTML = table;
+    }
+    
+
+</script>
+
+<script>
+        var nav = document.getElementById("navtable2");
+        nav.className="active";
+</script>
+        
+
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../static/bootstrap-3.3.7/docs/assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="../static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../static/bootstrap-3.3.7/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+<link rel="stylesheet" href="https://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css">
+
+
+
+</html>

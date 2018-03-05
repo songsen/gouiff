@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{template "headbar.html" .}}
+
+    <script type="text/javascript" language="javascript">
+      $.ajaxSetup ({
+      cache: false //close AJAX cache
+      });
+      </script>
+      
+  <style>
+  a {text-align:right} 
+  </style>
+
+  </head>
+  <script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js">
+  </script>
+    <!-- Custom styles for this template -->
+    <link href="../static/css/dashboard.css" rel="stylesheet">
+    
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li data-id="adminpage" class="active"><a href="#" >管理line </a></li>
+            <li data-id="updateline"><a href="#">更新line</a></li>
+            <li data-id="addline"><a href="#">增添line</a></li>
+            <li data-id="delline"><a href="#">删除line</a></li>
+            <li role="separator" class="divider"><a ></a></li>
+            <li data-id="adduser" ><a href="#">注册User</a></li>
+            <li data-id="moduser"><a href="#">修改User资料</a></li>
+            <li><a href="#">修改User权限</a></li>
+            <li><a href="#">删除User</a></li>
+          </ul>
+        </div>
+        <!--- do something here -->
+        <div id="content"></div>
+        </div>
+      </div>
+  </body>
+
+    <script>
+    //标签事件监听jquery
+    $(function(){
+    $(".nav-sidebar").on("click", "li", function(){
+        var sId = $(this).data("id");  //获取data-id的值
+        //alert(sId)
+        window.location.hash = sId;  //设置锚点
+        loadInner(sId);
+    });
+    function loadInner(sId){
+        var sId = window.location.hash;
+        var pathn, i;
+        switch(sId){
+            case "#adminpage": pathn = "admin/adminpage.html"; i=0; break;
+          　case "#updateline": pathn = "admin/update.html"; i = 1; break;
+            case "#addline": pathn = "admin/addline.html"; i = 2; break;
+            //case "#delline": pathn = ""; i = 3; break;
+            case "#adduser": pathn = "admin/adduser.html"; i = 5; break;
+            case "#moduser": pathn = "admin/user_info.html"; i = 6; break;
+　　　　　　 default: pathn = "admin/adminpage.html"; i = 0; break;
+        }
+        $("#content").load(pathn); //加载相对应的内容
+        $(".nav-sidebar li").eq(i).addClass("active").siblings().removeClass("active"); //当前列表高亮
+    }   
+    var sId = window.location.hash;
+    loadInner(sId);
+  }); 
+    </script>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="../static/bootstrap-3.3.7/docs/assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../static/bootstrap-3.3.7/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+</html>

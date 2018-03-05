@@ -1,0 +1,66 @@
+
+   
+        <h5 class="page-header">Register User</h5>
+        <p><span class="label label-warning">Warning * 标注为必填内容</span></p>
+      <div >
+        <form id="form" class="form-inline" action="http://{{.Domain}}/user" method="post">
+          <div class="form-group">
+            <input type="text"  name="username" class="form-control" placeholder="* username" >
+            <input type="text"  name="password" class="form-control" placeholder="* password" >
+            <input type="text"  name="persission" class="form-control" placeholder="* persission" >
+            <input type="hidden" name="_method" value="PUT">
+            <button type="button" class="btn btn-default">Register</button>
+          </div>
+        </form>  
+        <br>
+        <div id="warning" class="sr-only" role="alert"><p></p></div>
+      </div>
+      <br>
+      <h5 class="sub-header">User List</h5>
+      <div class="table-responsive">
+        <table id="adminADDUserTable"class="table table-striped">
+          <thead>
+            <tr>
+                <th>UID</th>
+                <th>Name</th>
+                <th class="col-md-2">Password</th>
+                <th class="col-md-2">Permission</th>
+                <th>Created</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+  
+<script>
+    $(document).ready(function(){
+      $("form button").click(function(){
+      var $parenobj = $(this).parents("form"); 
+      
+       var tip = ""
+       $parenobj.find(".form-control").each(function(){
+        if($(this).val().length == 0){
+          tip += "<br><small>" + $(this).attr("name") + ":不能为空</small>";
+        }
+      })
+      
+      if ( tip != ""){
+        $("#warning").attr("class","alert alert-warning");
+        $("#warning> p").html("<strong>warning</strong>"+tip);
+          return false ;
+      }else{
+        $("#warning").attr("class","sr-only")
+      }
+
+      var uarp = $parenobj.attr("action");
+      var param = $parenobj.serialize();
+
+      $.post(uarp,param,function(data,status){
+          $("#warning").attr("class","alert alert-success");
+          $("#warning> p").html("<strong>提醒</strong>：" + data);
+        });
+      return false;
+      });
+    });
+</script>

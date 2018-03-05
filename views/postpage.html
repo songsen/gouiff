@@ -1,0 +1,85 @@
+<div>
+
+            <!--- 更新记录bar -->
+
+            <div class="page-header" ><h5 >Logs</h5></div>
+            <div class="input-group"></div>
+
+            <ul id="chatbox" class="list-group">          
+
+                <li class="well well-sm" >
+                    <p style="text-align:left" > Pin a fixed-height footer to the bottom of the viewport 
+                        in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with 
+                        <code>padding-top: 60px;</code> on the <code>body &gt; .container</code>.
+                    </p>
+                </li>
+    
+                <li>
+                    <div class="well well-sm" style="float:right;">
+                        <p style="text-align:right"><p>Back to <a href="../sticky-footer">
+                            the default sticky footer</a> minus the navbar.</p>
+                        </p>
+                    </div>
+                </li>
+        
+                <li style="float:left;">
+                    <div class="well well-sm" >
+                        <p style="text-align:right"><p>Back to <a href="../sticky-footer">
+                            the default sticky footer</a> minus the navbar.</p>
+                        </p>
+                    </div>
+                </li>
+
+           </ul>
+            
+            <!--- post 区域 -->
+            <div >
+                <textarea class="form-control" rows="3"></textarea>
+                <p> </p>
+            </div>
+            <div style="float:right;" class="form-group">
+                <a id="btn2" class="btn btn-primary" disabled="disabled">Post</a>
+            </div>
+
+            
+<script>
+var socket;
+
+$(document).ready(function () {
+    // Create a socket
+    socket = new WebSocket('ws://' + window.location.host + '/ws/join' );
+    // Message received on the socket
+    socket.onmessage = function (event) {
+        var data = JSON.parse(event.data);
+        console.log(data);
+        switch (data.Type) {
+        case 0: // JOIN
+            if (data.User == $('#optionUsername').data("uname") ) {
+                $("#chatbox li").first().before("<li>You joined the chat room.</li>");
+            } else {
+                $("#chatbox li").first().before("<li>" + data.User + " 正在更新中...</li>");
+            }
+            break;
+        case 1: // LEAVE
+            $("#chatbox li").first().before("<li >" + data.User + " 更新完成...</li>");
+            break;
+        case 2: // MESSAGE
+            $("#chatbox li").first().before("<li class=\"list-group-item list-group-item-warning\" ><b>" + data.User + "</b>: " + data.Content + "</li>");
+            break;
+        }
+    };
+
+    // Send messages.
+    // var postConecnt = function () {
+    //     var uname = $('#uname').text();
+    //     var content = $('#sendbox').val();
+    //     socket.send(content);
+    //     $('#sendbox').val("");
+    // }
+
+    // $('#sendbtn').click(function () {
+    //     postConecnt();
+    // });
+});
+</script>
+</div>
