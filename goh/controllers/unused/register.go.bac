@@ -1,0 +1,44 @@
+package controllers
+
+import (
+	"github.com/astaxie/beego"
+	"goh/models"
+	"strconv"
+	"github.com/astaxie/beego/logs"
+	"time"
+)
+
+type RegiterController struct {
+	beego.Controller
+}
+
+
+func (this *RegiterController) Get() {
+	
+	this.Data["WebsiteReg"] = "localhost:8080/reg"
+	this.TplName = "login.html"
+}
+
+func (this *RegiterController) Post() {
+	username := this.GetString("username")
+	password := this.GetString("password")
+	persission := this.GetString("persission")
+
+	newPass := models.GetMD5(password) 
+
+	info := new(models.Userinfo)
+	info.Username = username
+	info.Password = newPass
+	info.Permission,_ = strconv.Atoi(persission)
+	info.Created = time.Now().Format("2006-01-02 15:04:05")
+
+	err := models.Adduserinfo(info)
+	if err != nil {
+		logs.Info("%s",err.Error())
+	}
+
+	this.Ctx.WriteString(this.GetString("username")) 
+}
+
+
+

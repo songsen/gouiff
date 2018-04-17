@@ -1,0 +1,25 @@
+package controllers
+
+import (
+	"github.com/astaxie/beego"
+	"goh/models"
+
+)
+
+
+type ChgController struct {
+	beego.Controller
+}
+
+func (this *ChgController) Post(){
+	username := this.GetString("username");//this.Ctx.Request.Form.Get("username")
+	password := this.GetString("password");//this.Ctx.Request.Form.Get("password")
+
+	info := models.GetUserInfo(username)
+	info.Password = models.GetMD5(password)
+	//info.Permission,_ = strconv.Atoi(permission)
+	//info.Created = time.Now().Format("2006-01-02 15:04:05")
+	
+	models.UpdatePwd(&info)
+	this.Ctx.WriteString(this.GetString("username")+" update") 
+}

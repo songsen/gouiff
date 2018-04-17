@@ -1,0 +1,84 @@
+<div>
+    <style>
+            li {
+            word-break: break-all;
+            word-wrap: break-word;
+          }
+    </style>
+
+                    <!--- 更新记录bar -->
+        
+                    <div class="page-header" ><h5 >Logs</h5></div>
+                    <div class="input-group"></div>
+        
+                    <ul id="chatbox" class="list-group">          
+        
+                    <li>
+
+                    </li>
+        
+                   </ul>
+
+        
+                    
+        <script>
+        var socket;
+        
+        $(document).ready(function () {
+            // Create a socket
+            socket = new WebSocket('ws://' + window.location.host + '/ws/join' );
+            // Message received on the socket
+            socket.onmessage = function (event) {
+                var data = JSON.parse(event.data);
+      
+                
+                value_arr = data.Content.split(","); ;
+                if(value_arr[0] === "update")
+                {
+                    $("#chatbox li").first().before("<li class=\"list-group-item list-group-item-warning\" ><p>"
+                        +data.User+" ：从<code>" 
+                            + value_arr[2]+" </code>到 <code>" 
+                                + value_arr[3]+"</code>的<code>"
+                                    +value_arr[4]+"</code> 更新内容：<code>"
+                                        + value_arr[5]+"</p></code></li>");
+                    if(Notification.permission === "granted"){
+
+                        new Notification("价格更新：", {
+                            body: "从" + value_arr[2]+"到" + value_arr[3]+"的"+value_arr[4]+"更新"+ value_arr[5],
+                            icon: '/static/ico/querycolor.ico',
+                            noscreen: true
+                        });
+            
+                    }
+                }else if(value_arr[0] === "add"){
+                    $("#chatbox li").first().before("<li>新增了 : 从<code>" + value_arr[1]+" </code>到 <code>" + value_arr[2]+"</code>的<code>"+value_arr[3]+"</code>航线</li>");
+                }else if(value_arr[0] === "delet"){
+                    $("#chatbox li").first().before("<li>删除了：从<code>" + value_arr[2]+"</code> 到 <code>" + value_arr[3]+"</code>的<code>"+value_arr[4]+"</code>航线</li>");
+                }
+            };
+        
+            if (window.Notification) {
+            // 获得权限
+            Notification.requestPermission();
+            // 点击按钮
+            // document.querySelector('#button').addEventListener('click', function () {
+            //     new Notification("Hi，帅哥：", {
+            //         body: '可以加你为好友吗？',
+            //         icon: '/static/ico/querycolor.ico'
+            //     });
+            // });
+            }
+            // Send messages.
+            // var postConecnt = function () {
+            //     var uname = $('#uname').text();
+            //     var content = $('#sendbox').val();
+            //     socket.send(content);
+            //     $('#sendbox').val("");
+            // }
+        
+            // $('#sendbtn').click(function () {
+            //     postConecnt();
+            // });
+        });
+        </script>
+        </div>

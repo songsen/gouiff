@@ -1,0 +1,44 @@
+<div>
+
+        <div class="container">
+                <ul id="navtable" class="nav nav-tabs " role="tablist">
+                    <li role="presentation" class="active" >
+                        <a href="#home" aria-controls="home" role="tab" data-toggle="tab" data-link="admin/updateline.html" >Update Line</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" data-link="admin/addline.html">ADD Line</a>
+                    </li>
+
+                    {{if .UserManagement}}
+                    <li role="presentation">
+                            <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" data-link="admin/user_info.html">Update User</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" data-link="admin/adduser.html">Register User</a>
+                    </li>        
+                    {{end}}
+                </ul>
+                <div class="row">
+                    <div class="tab-content">
+                            <div id="adminMaintablepanel" role="tabpanel" class="tab-pane active" >加载中……</div>
+                            <!-- <div role="tabpanel" class="tab-pane" id="profile">..2.</div>
+                            <div role="tabpanel" class="tab-pane" id="messages">.3..</div>
+                            <div role="tabpanel" class="tab-pane" id="settings">.4..</div> -->
+                    </div>
+                </div>
+        </div>
+        
+        <script>
+        $(function(){
+            $('#navtable a').click(function (e) {
+                
+                $("#adminMaintablepanel").load($(this).data("link"));  
+    
+            })
+        })
+        $(function(){
+            $("#adminMaintablepanel").load("admin/updateline.html"); 
+        })
+        </script>
+
+</div>

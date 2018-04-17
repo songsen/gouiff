@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="query line">
+        <meta name="author" content="Eason">
+        <link rel="icon" href="../static/ico/querycolor.ico">
+            
+        <title>Signinp</title>
+        
+        <!-- Bootstrap core CSS -->
+        <link href="../static/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap theme -->
+         <link href="../static/dist/css/bootstrap-theme.min.css" rel="stylesheet">   
+        
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <!-- <link href="../static/bootstrap-3.3.7/docs/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
+        <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+        <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+        <!-- <script src="../static/bootstrap-3.3.7/docs/assets/js/ie-emulation-modes-warning.js"></script> -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Custom styles for this template -->
+        <link href="../static/css/sticky-footer-navbar.css" rel="stylesheet">
+
+        <!--==== style css ====-->
+        <link href="../static/css/autocompelet.css" rel="stylesheet">
+
+        <script src="../static/js/autocompelet.js"></script>
+
+            <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+  </head>
+
+  <body>
+        
+        <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"> SYSTEM</a>
+            </div>
+
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul id="navtag" class="nav navbar-nav">
+                    <li id="navtable1" class=""><a href="/">Home</a></li>
+                    <li id="navtable2" class="active"><a id="navLineButton" data-link="linepage.html" href="#query">Query</a></li>
+                    <li id="navtable3" class=""><a id="navPostButton" data-link="postpage.html" href="#post">Post</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header" id="optionUsername" data-uname={{.optionUsername}}>Signed in as {{.optionUsername}}</li>
+                            <li role="separator" class="divider"></li>
+                            {{if .optionAdmub}}
+                            <li><a id="navAdminButton" data-link="adminpage.html" href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Admin</a></li>
+                            {{end}}
+                            <li class="disabled"><a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>    Set</a></li>
+                            <li class="disabled"><a href="#"><span class="glyphicon glyphicon-plane" aria-hidden="true"></span>    Profile</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li class="disabled"><a href="#"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span>    Help</a></li>
+                            <li><a href="/login?loginEvent=logout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>    Sign out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+  
+    <div class="container">
+        <div id="postcontext"  class="sr-only"  >
+        </div>  
+    
+        <div id="linecontext" class="sr-only">   
+        </div>  
+
+        <div id="admincontext" class="sr-only">   
+        </div> 
+    </div>
+        
+   
+
+<script>
+
+        $(function(){
+            $("#navtag a").click(function(){
+                $parent = $(this).parent();
+                $parent.siblings().removeClass("active");
+                $parent.addClass("active"); 
+            })
+        })
+
+        //加载一次
+        $(function(){
+            $("#navLineButton").one("click",function(){
+                $("#linecontext").load($(this).data("link")).removeClass("sr-only").siblings().addClass("sr-only");
+            })
+
+            $("#navPostButton").one("click",function(){
+                $("#postcontext").load($(this).data("link")).removeClass("sr-only").siblings().addClass("sr-only");
+            })
+
+            $("#navAdminButton").one("click",function(){
+                $("#admincontext").load($(this).data("link")).removeClass("sr-only").siblings().addClass("sr-only")
+            })
+
+            $("#linecontext").load("linepage.html").removeClass("sr-only").siblings().addClass("sr-only");
+
+        })
+        //隐藏其他
+        $(function(){
+            $("#navLineButton").click(function(){
+                $("#linecontext").removeClass("sr-only").siblings().addClass("sr-only");
+            })
+
+            $("#navPostButton").click(function(){
+                $("#postcontext").removeClass("sr-only").siblings().addClass("sr-only");
+            })
+            
+            $("#navAdminButton").click(function(){
+                $("#admincontext").removeClass("sr-only").siblings().addClass("sr-only");
+            })
+        })
+
+        // var nav = document.getElementById("navtable2");
+        // nav.className="active";
+
+</script>
+
+
+</body>
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+
+
+    <!-- <script>window.jQuery || document.write('<script src="../static/bootstrap-3.3.7/docs/assets/js/vendor/jquery.min.js"><\/script>')</script> -->
+    <script src="../static/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <script src="../static/bootstrap-3.3.7/docs/assets/js/ie10-viewport-bug-workaround.js"></script> -->
+
+</html>

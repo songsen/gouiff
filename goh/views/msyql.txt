@@ -1,0 +1,11 @@
+插入mysql数据表数据，插入中文时会出现报错。提示一般为incorrect string value ．．．．．
+原因是字符编码不正确
+
+在mysql可视化窗口中执行以下语句即可插入
+
+解决方法：
+ALTER DATABASE test DEFAULT CHARACTER SET utf8 COLLATE utf8_bin shippinglinetable ; 修改数据库编码的命令
+
+ALTER TABLE `menu` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin   修改表的编码的命令
+
+ALTER TABLE `menu` CHANGE `text` `text` TEXT CHARACTER SET utf8 COLLATE utf8_bin   修改表的编码的命令

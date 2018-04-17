@@ -1,0 +1,87 @@
+
+  <h5 class="page-header">Add Line</h5>
+  <p><span class="label label-warning">Warning * 标注为必填内容</span></p>
+  <div >
+    <form class="form-inline" action="/line" method="post">
+      <div class="form-group">
+        <input type="text" id="fromport" name="fromport"  autocomplete=on class="form-control" placeholder="* From PORT" >
+        <input type="text" id="fromport" name="fromcity" autocomplete=on  class="form-control" placeholder="From City">        
+        <br>
+        <input type="text" id="toport" name="toport"  autocomplete=on class="form-control" placeholder="* To PORT" >
+        <input type="text" id="tocity" name="tocity"  autocomplete=on class="form-control" placeholder="To City" >
+        <input type="text" id="region" name="region"  autocomplete=on class="form-control" placeholder="Region" >
+        <br><br>
+        <input type="text" id="ship" name="ship"  autocomplete=on class="form-control" placeholder="* Ship" >
+        <input type="text" id="price" name="price"  autocomplete=on class="form-control" placeholder="Small/Large/XL Price" >
+        <input type="text" id="mark" name="mark"  autocomplete=on class="form-control" placeholder="Close Date" >
+        <br><br>
+        <input type="text" id="note" name="note"  autocomplete=on class="form-control" placeholder="More Note ..." >
+        <input type="hidden" name="msgtype" value="addoneline">
+        <button type="button" class="btn btn-default">增添</button>
+      </div>
+    </form>  
+    <br>
+    <div id="warning" class="sr-only" role="alert"><p></p></div>
+  </div>
+    <br>
+    <h5 class="sub-header">Line List</h5>
+    <div class="table-responsive">
+      <table id="adminADDLine"class="table table-striped">
+        <thead>
+          <tr>
+              <th>From</th>
+              <th>To</th>
+              <th >Ship</th>
+              <th class="col-md-2" >Price</th>
+              <th class="col-md-1">Close</th>
+              <th>Note</th>
+              <th class="col-md-1">By</th>
+              <th class="col-md-1">Region</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+          $("form button").click(function(){
+          var $parenobj = $(this).parents("form"); 
+          
+           var tip = ""
+            var $child = $parenobj.find("[name='fromport']")
+           if ($child.val().length == 0){
+              tip += "<br><small>" + $child.attr("name") + ":不能为空</small>";
+           }
+
+           var $child = $parenobj.find("[name='toport']")
+           if ($child.val().length == 0){
+              tip += "<br><small>" + $child.attr("name") + ":不能为空</small>";
+           }
+
+           var $child = $parenobj.find("[name='ship']")
+           if ($child.val().length == 0){
+              tip += "<br><small>" + $child.attr("name") + ":不能为空</small>";
+           }
+          
+          if ( tip != ""){
+            $("#warning").attr("class","alert alert-warning");
+            $("#warning> p").html("<strong>warning</strong>"+tip);
+              return false ;
+          }else{
+            $("#warning").attr("class","sr-only")
+          }
+    
+          var uarp = $parenobj.attr("action");
+          var param = $parenobj.serialize();
+    
+          $.post(uarp,param,function(data,status){
+              $("#warning").attr("class","alert alert-success");
+              $("#warning> p").html("<strong>提醒</strong>：" + data);
+            });
+          return false;
+          });
+        });
+    </script>
+  
