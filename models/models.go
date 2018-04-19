@@ -91,7 +91,7 @@ if err != nil {
 func InitDB(){
 
 	orm.RegisterDriver("mysql", orm.DRMySQL)
-	orm.RegisterDataBase("default", "mysql", "test:1007030237@tcp(songsen.top:3306)/test?charset=utf8")
+	orm.RegisterDataBase("default", "mysql", "username:password@tcp(songsen.top:3306)/dbname?charset=utf8")
 	orm.SetMaxIdleConns("default", 30)
 	orm.SetMaxOpenConns("default", 30)
 	orm.RegisterModel(new(Userinfo),new(Shippingline))
